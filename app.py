@@ -27,9 +27,9 @@ def convertImage(imgData1):
     imgData = request.get_data()
     x = imread('output.png',mode='L')
     #make it the right size
-	  x = imresize(x,(28,28))
+	  x = imresize(x,(224,224))
    	#convert to a 4D tensor to feed into our model
-	  x = x.reshape(1,28,28,3)
+	  x = x.reshape(1,224,224,3)
   	with graph.as_default():
 		  out = model.predict(x)
  	  	response = np.array_str(np.argmax(out,axis=1))

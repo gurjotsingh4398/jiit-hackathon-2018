@@ -10,38 +10,19 @@
       />
     -->
     <link rel="stylesheet" href="../static/style.css" />
-    <style>
-      #container {
-        width: 450px;
-        height: 338px;
-        border: 10px #333 solid;
-      }
-
-      #driver {
-        width: 450px;
-        height: 338px;
-      }
-
-      #videoElement {
-        display: none;
-        width: 450px;
-        height: 338px;
-        background-color: #666;
-      }
-      canvas {
-        display: none;
-      }
-    </style>
   </head>
   <body>
-    <h1>Dizzy Driver</h1>
+    <div id="nav">
+      <img src="../static/taxi.svg" alt="logo" id="logo" />
+      <h1>Dizzy Driver</h1>
+    </div>
     <div id="container">
       <img src="../static/taxi-driver.svg" alt="Driver Image" id="driver" />
       <video autoplay="true" id="videoElement"></video>
     </div>
-    <button onclick="getVideo()">video</button>
-    <button onclick="takePhoto()">image</button> <canvas></canvas>
-    <button onclick="predict()">predict</button>
+    <button onclick="getVideo()" id="btnv">video</button>
+    <button onclick="takePhoto()" id="btni">image</button> <canvas></canvas>
+    <button onclick="predict()" id="btnp">predict</button>
     <div id="result"></div>
     <script src="../static/jquery-3.3.1.min.js"></script>
     <!--
