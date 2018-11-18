@@ -20,10 +20,16 @@
       <img src="../static/taxi-driver.svg" alt="Driver Image" id="driver" />
       <video autoplay="true" id="videoElement"></video>
     </div>
+    <div id="result">
+      Result
+      <p id="res"></p>
+    </div>
+    <div></div>
     <button onclick="getVideo()" id="btnv">video</button>
     <button onclick="takePhoto()" id="btni">image</button> <canvas></canvas>
     <button onclick="predict()" id="btnp">predict</button>
-    <div id="result"></div>
+    <p id="or">OR</p>
+    <input type="file" name="file" id="file" />
     <script src="../static/jquery-3.3.1.min.js"></script>
     <!--
       <script src="{{ url_for('static',filename='jquery-3.3.1.min.js') }}"></script>
@@ -80,7 +86,7 @@
           url: $SCRIPT_ROOT + "/predict/",
           data: imageDataURL,
           success: function(data) {
-            $("#result").text(" Predicted Output: " + data);
+            $("#res").text(" Predicted Output: " + data);
           }
         });
       };
