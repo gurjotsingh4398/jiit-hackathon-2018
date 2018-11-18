@@ -29,7 +29,7 @@ def convertImage(imgData1):
     #make it the right size
 	  x = imresize(x,(28,28))
    	#convert to a 4D tensor to feed into our model
-	  x = x.reshape(1,28,28,1)
+	  x = x.reshape(1,28,28,3)
   	with graph.as_default():
 		  out = model.predict(x)
  	  	response = np.array_str(np.argmax(out,axis=1))

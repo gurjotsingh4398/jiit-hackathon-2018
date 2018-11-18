@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dizzy Driver</title>
+    <!--
+      <link
+        rel="stylesheet"
+        href="{{ url_for('static',filename='style.css') }}"
+      />
+    -->
+    <link rel="stylesheet" href="../static/style.css" />
+    <style>
+      #container {
+        width: 450px;
+        height: 338px;
+        border: 10px #333 solid;
+      }
+
+      #driver {
+        width: 450px;
+        height: 338px;
+      }
+
+      #videoElement {
+        display: none;
+        width: 450px;
+        height: 338px;
+        background-color: #666;
+      }
+      canvas {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Dizzy Driver</h1>
+    <div id="container">
+      <img src="../static/taxi-driver.svg" alt="Driver Image" id="driver" />
+      <video autoplay="true" id="videoElement"></video>
+    </div>
+    <button onclick="getVideo()">video</button>
+    <button onclick="takePhoto()">image</button> <canvas></canvas>
+    <button onclick="predict()">predict</button>
+    <div id="result"></div>
+    <script src="../static/jquery-3.3.1.min.js"></script>
+    <!--
+      <script src="{{ url_for('static',filename='jquery-3.3.1.min.js') }}"></script>
+    -->
+    <script>
+      var cont = document.getElementById("container");
+      var video = document.querySelector("#videoElement");
+      var img = document.getElementById("driver");
+      var hidden_canvas = document.querySelector("canvas");
+      let imageCapture, imageStream;
+      var width, height, context, imageDataURL;
+
+      let getVideo = () => {
+        if (navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices
+            .getUserMedia({ video: true })
+            .then(function(stream) {
+              video.srcObject = stream;
+              img.style.display = "none";
+              video.style.display = "inline";
+              imageStream = stream;
+              let mediaStreamTrack = stream.getVideoTracks()[0];
+              imageCapture = new ImageCapture(mediaStreamTrack);
+            })
+            .catch(function(err0r) {
+              console.log("Something went wrong!");
+            });
+        }
+      };
+
+      let takePhoto = () => {
+        console.log("photo");
+
+        width = video.videoWidth;
+        height = video.videoHeight;
+        context = hidden_canvas.getContext("2d");
+
+        hidden_canvas.width = width;
+        hidden_canvas.height = height;
+
+        context.drawImage(video, 0, 0, width, height);
+
+        imageDataURL = hidden_canvas.toDataURL("image/png");
+
+        img.setAttribute("src", imageDataURL);
+        img.style.display = "inline";
+        video.style.display = "none";
+      };
+
+      let predict = () => {
+        // var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        $.ajax({
+          type: "POST",
+          url: $SCRIPT_ROOT + "/predict/",
+          data: imageDataURL,
+          success: function(data) {
+            $("#result").text(" Predicted Output: " + data);
+          }
+        });
+      };
+    </script>
+  </body>
+</html>
